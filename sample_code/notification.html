@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>alertify.js - example page</title>
+	<link rel="stylesheet" href="themes/alertify.core.css" />
+	<link rel="stylesheet" href="themes/alertify.default.css" id="toggleCSS" />
+	<!-- <link rel="stylesheet" href="themes/alertify.bootstrap.css" id="toggleCSS" /> -->
+
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.8.0/css/alertify.min.css"/>
+	<!-- Default theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.8.0/css/themes/default.min.css"/>
+	<!-- Semantic UI theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.8.0/css/themes/semantic.min.css"/>
+	<!-- Bootstrap theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.8.0/css/themes/bootstrap.min.css"/>
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.8.0/css/themes/bootstrap3.min.css"/>
+
+
+
+	<meta name="viewport" content="width=device-width">
+	<style>
+		.alertify-log-custom {
+			background: blue;
+		}
+	</style>
+</head>
+<body>
+	<h1>notification、通知</h1>
+	<h2>Logs</h2>
+	<a href="#" id="notification">Standard Log</a><br>
+	<a href="#" id="success">Success Log</a><br>
+	<a href="#" id="error">Error Log</a><br>
+	<a href="#" id="custom">Custom Log</a><br>
+	<a href="#" id="delay">Hide in 10 seconds</a><br>
+	<a href="#" id="forever">Persistent Log</a>
+
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="lib/alertify.min.js"></script>
+	<script>
+		// アラート・ダイアログの初期値をセット
+		function reset () {
+						$("#toggleCSS").attr("href", "themes/alertify.bootstrap3.css"); //
+			// $("#toggleCSS").attr("href", "themes/alertify.default.css"); //このCSSに対して上書きます
+			alertify.set({
+				labels : {
+					ok     : "OK",    //ボタン名表示
+					cancel : "Cancel" //ボタン名表示
+				},
+				delay : 1000, //5秒後に非表示
+				buttonReverse : false, //true＝OKが左、false＝OKが右
+				buttonFocus   : "ok" //okボタンに表示したさいにフォーカスを当てる
+			});
+		}
+
+
+		// =============================================
+		// クリックイベント
+		// =============================================
+		
+		// ==============================
+		// Standard Dialogs（標準、デフォルト）
+		$("#notification").on( 'click', function () {
+			reset();
+			alertify.log("標準のメッセージ"); //黒
+			return false;
+		});
+		//Success (成功)	
+		$("#success").on( 'click', function () {
+			reset();
+			alertify.success("成功のメッセージ"); //緑
+			return false;
+		});
+		//Error (失敗)
+		$("#error").on( 'click', function () {
+			reset();
+			alertify.error("エラーのメッセージ"); //赤
+			return false;
+		});
+		
+		// ==============================
+		// Custom Log
+		$("#custom").on( 'click', function () {
+			reset();
+			alertify.custom = alertify.extend("custom");
+			alertify.custom("I'm a custom log message");
+			return false;
+		});
+		
+		// ==============================
+		// Custom Properties
+		$("#delay").on( 'click', function () {
+			reset();
+			alertify.set({ delay: 10000 }); //delay: 非表示までの秒数［1000=1秒］
+			alertify.log("10秒後に非表示"); 
+			return false;
+		});
+
+		//Clickしないと非表示にならない
+		$("#forever").on( 'click', function () {
+			reset();
+			alertify.log("クリックしないと閉じません", "", 0);
+			return false;
+		});
+
+
+
+	</script>
+
+</body>
+</html>
