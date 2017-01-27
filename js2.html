@@ -1,0 +1,50 @@
+<html>
+<body>
+<table id="user_list" border="1">
+<thead>
+  <tr><th>番号</th><th>ユーザ名</th><th>年齢</th><th>アカウント状態</th></tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+ 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://www.jsviews.com/download/jsrender.js"></script>
+
+<script id="user_template" type="text/x-jsrender">
+<tr>
+  <td>{{>id}}</td>
+  <td>{{>name}}</td>
+  <td>{{>age}}</td>
+  <td>
+    {{if account_status==0 tmpl="凍結中"}}
+    {{else tmpl="利用中"}}
+    {{/if}}</td>
+  </tr>
+</script>
+
+
+<script type="text/javascript">
+$(function(){
+
+$.ajax({
+  type: "GET",
+  url: "js1.json",
+  dataType: "json",
+  success: function(json){
+
+    console.log(json);
+    var template = $.templates("#user_template");   // テンプレートを指定
+    var htmlOutput = template.render(json);   //テンプレート内に変数展開
+
+    $("#user_list").html(htmlOutput);   //出力
+
+  },
+    error:function(){console.log('Miss..');}
+});
+
+
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>alertify.js</title>
+	<link rel="stylesheet" href="themes/alertify.core.css" />
+	<link rel="stylesheet" href="themes/alertify.default.css" id="toggleCSS" />
+
+
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.8.0/css/alertify.min.css"/>
+	<!-- Default theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.8.0/css/themes/default.min.css"/>
+	<!-- Semantic UI theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.8.0/css/themes/semantic.min.css"/>
+	<!-- Bootstrap theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.8.0/css/themes/bootstrap3.min.css"/>
+
+<!-- <script src="//cdn.jsdelivr.net/alertifyjs/1.8.0/alertify.min.js"></script> -->
+
+	<meta name="viewport" content="width=device-width">
+	<style>.alertify-log-custom {background: blue;}</style>
+</head>
+<body>
+<h1>alertify.js - example - </h1>
+<h2>Dialogs</h2>
+<ul>
+	<li><a href="#" id="alert">Alert ダイアログ</a></li>
+	<li><a href="#" id="confirm">Confirm ダイアログ</a></li>
+	<li><a href="#" id="prompt">Prompt ダイアログ</a></li>
+	<li><a href="#" id="labels">Custom ラベル</a></li>
+	<li><a href="#" id="focus">Button フォーカス</a></li>
+	<li><a href="#" id="order">Button オーダー</a></li>
+</ul>
+
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="lib/alertify.min.js"></script>
+	<script>
+		//アラート・ダイアログの初期値をセット
+		function reset () {
+
+				// $("toggleCSS").href = "assets/js/lib/alertify/alertify.bootstrap.css";
+			// $("#toggleCSS").attr("href", "themes/alertify.default.css"); //このCSSに対して以下のプロパティを設定します。（必須）
+			$("#toggleCSS").attr("href", "themes/alertify.bootstrap3.css"); //このCSSに対して以下のプロパティを設定します。（必須）
+
+			alertify.set({
+				labels : {
+					ok     : "OK",  //ボタン名表示
+					cancel : "Cancel" //ボタン名表示
+				},
+				delay : 5000, //5秒後に非表示
+				buttonReverse : false, //true＝OKが左、false＝OKが右
+				buttonFocus   : "ok" //okボタンに表示したさいにフォーカスを当てる
+			});
+		}
+
+
+		// =============================================
+		// クリックイベント
+		// =============================================
+		
+		// Alert ダイアログ
+		$("#alert").on( 'click', function () {
+			reset(); //表示の初期化
+			alertify.alert("アラート表示");
+			return false;
+		});
+		
+		// Confirmダイアログ
+		$("#confirm").on( 'click', function () {
+			reset(); //表示の初期化
+			alertify.confirm("●●●であってますか？", function (e) {
+				if (e) {
+					alertify.success("はい、あってます"); //OK:notification(通知)
+				} else {
+					alertify.error("いいえ、ちがいます"); //Cansel:notification(通知)
+				}
+			});
+			return false;
+		});
+		
+		// Prompt ダイアログ
+		$("#prompt").on( 'click', function () {
+			reset(); //表示の初期化
+			alertify.prompt("入力してください", function (e, str) {
+				if (e) {
+					alertify.success("入力内容: " + str); //notification(通知)
+				} else {
+					alertify.error("キャンセル"); //notification(通知)
+				}
+			}, "文字列を入力");
+			return false;
+		});
+		
+		//【Customラベル】Button表示名を変更する
+		$("#labels").on( 'click', function () {
+			reset(); //表示の初期化
+			alertify.set({ labels: { ok: "はい", cancel: "いいえ" } }); //ボタン表示名指定
+			alertify.confirm("このサンプルはボタン名変更の方法を確認します", function (e) {
+				if (e) {
+					alertify.success("イエスを選択");
+				} else {
+					alertify.error("ノーを選択");
+				}
+			});
+			return false;
+		});
+		
+		//【Button フォーカス】Buttonにフォーカスを当てる
+		$("#focus").on( 'click', function () {
+			reset(); //表示の初期化
+			alertify.set({ buttonFocus: "cancel" }); //表示した際にボタンにフォーカスを当てる指定：選択肢［ok or cancel］
+			alertify.confirm("Confirm dialog with cancel button focused", function (e) {
+				if (e) {
+					alertify.success("OKを選択");
+				} else {
+					alertify.error("Cancelを選択");
+				}
+			});
+			return false;
+		});
+		
+		//【Button オーダー】Buttonの右左位置の指定
+		$("#order").on( 'click', function () {
+			reset(); //表示の初期化
+			alertify.set({ buttonReverse: true }); // buttonの並びを指定 [true=okが左、false=okが右]
+			alertify.confirm("Confirm dialog with reversed button order", function (e) {
+				if (e) {
+					alertify.success("OKを選択");
+				} else {
+					alertify.error("Cancelを選択");
+				}
+			});
+			return false;
+		});
+
+	</script>
+
+</body>
+</html>
